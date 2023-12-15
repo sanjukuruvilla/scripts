@@ -19,3 +19,19 @@ git commit -m "Auto commit"
 git push origin
 
 echo "Git push completed successfully."
+
+#---------------To automate giving username and  password------------------------------- 
+
+#Make sure that you have set up Git credentials to avoid entering username and password every time. You can use the following command to cache your credentials:
+
+#bash
+
+#git config --global credential.helper cache
+
+#This will cache your credentials for 15 minutes by default. You can adjust the timeout by adding --timeout to the command, like this:
+
+#bash
+
+#git config --global credential.helper 'cache --timeout=3600'  # Set timeout to 1 hour
+
+#This way, you won't be prompted for your username and password every time you push changes.
