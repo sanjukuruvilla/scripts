@@ -41,9 +41,21 @@ function install_jenkins {
     check_command "Jenkins installation"
 }
 
-# Function to install Kubectl
-function install_kubectl {
+# Function to install Kubectl without user interaction
+function install_kubectl_auto {
     echo "Installing Kubectl..."
+    
+    # Step 1: Install prerequisites
+    sudo apt-get update
+    sudo apt-get install -y apt-transport-https ca-certificates curl
+    
+    # Step 2: Add Kubernetes apt-keyring
+    curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+    
+    # Step 3: Add Kubernetes repository
+    echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+    
+    # Step 4: Update and install Kubectl
     sudo apt-get update
     sudo apt-get install -y kubectl
     check_command "Kubectl installation"
@@ -100,7 +112,7 @@ install_jenkins
 install_kubectl
 
 # Install Minikube (optional)
-install_minikube
+install_kubectl_auto
 
 # Install Terraform (optional)
 install_terraform
