@@ -13,10 +13,18 @@ function check_command {
     fi
 }
 
+# Function to install required dependencies
+function install_dependencies {
+    echo "Installing required dependencies..."
+    sudo apt-get update -y
+    sudo apt-get upgrade -y
+    sudo apt-get install -y zip unzip
+    check_command "Dependency installation"
+}
+
 # Function to install Docker
 function install_docker {
     echo "Installing Docker..."
-    sudo apt-get update
     sudo apt-get install -y docker.io
     check_command "Docker installation"
 }
@@ -99,6 +107,9 @@ if [ "$(id -u)" -ne 0 ]; then
     error_exit "This script must be run as root. Please use sudo."
 fi
 
+# Install required dependencies
+install_dependencies
+
 # Install Docker
 install_docker
 
@@ -109,13 +120,12 @@ install_java
 install_jenkins
 
 # Install Kubectl
-install_kubectl
+install_kubectl_auto
 
 # Install Minikube (optional)
-install_kubectl_auto
+install_minikube
 
 # Install Terraform (optional)
 install_terraform
 
 echo "Installation completed successfully."
-
