@@ -22,11 +22,15 @@ function install_dependencies {
     check_command "Dependency installation"
 }
 
-# Function to install Docker
+# Function to install Docker and add user to the docker group
 function install_docker {
     echo "Installing Docker..."
     sudo apt-get install -y docker.io
     check_command "Docker installation"
+    
+    # Add user to the docker group
+    sudo usermod -aG docker $USER
+    newgrp docker
 }
 
 # Function to install Java (Java 17 or above)
@@ -69,7 +73,7 @@ function install_kubectl_auto {
     check_command "Kubectl installation"
 }
 
-# Function to install Minikube
+# Function to install Minikube and start it
 function install_minikube {
     echo "Do you want to install Minikube for Kubernetes? (yes/no)"
     read install_minikube_choice
@@ -79,6 +83,9 @@ function install_minikube {
         curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
         sudo install minikube-linux-amd64 /usr/local/bin/minikube
         check_command "Minikube installation"
+        
+        # Start Minikube
+        sudo minikube start
     else
         echo "Skipping Minikube installation."
     fi
@@ -110,7 +117,7 @@ fi
 # Install required dependencies
 install_dependencies
 
-# Install Docker
+# Install Docker and add user to the docker group
 install_docker
 
 # Install Java
