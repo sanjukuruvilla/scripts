@@ -87,20 +87,19 @@ function install_minikube {
 }
 
 # Function to install Terraform
-function install_terraform {
-    echo "Do you want to install Terraform? (yes/no)"
-    read install_terraform_choice
+echo "Do you want to install the latest version of Terraform? (yes/no)"
+read install_latest_terraform_choice
 
-    if [ "$install_terraform_choice" = "yes" ] || [ "$install_terraform_choice" = "y" ]; then
-        echo "Installing Terraform..."
-        wget https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_linux_amd64.zip -O /tmp/terraform.zip
-        sudo unzip -d /usr/local/bin/ /tmp/terraform.zip
-        rm /tmp/terraform.zip
-        check_command "Terraform installation"
-    else
-        echo "Skipping Terraform installation."
-    fi
-}
+if [ "$install_latest_terraform_choice" = "yes" ] || [ "$install_latest_terraform_choice" = "y" ]; then
+    echo "Downloading the latest version of Terraform..."
+    wget https://releases.hashicorp.com/terraform/1.7.3/terraform_1.7.3_linux_amd64.zip -O /tmp/terraform.zip
+    sudo unzip -d /usr/local/bin/ /tmp/terraform.zip
+    rm /tmp/terraform.zip
+    check_command "Latest Terraform installation"
+    echo "Latest version of Terraform installed successfully."
+else
+    echo "Skipping installation of the latest version of Terraform."
+fi
 
 # Main script
 
