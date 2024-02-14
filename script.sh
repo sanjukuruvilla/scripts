@@ -16,17 +16,14 @@ function check_command {
 # Function to install required dependencies
 function install_dependencies {
     echo "Installing required dependencies..."
-    sudo apt-get update -y  # Update package lists
-    sudo apt-get upgrade -y  # Upgrade installed packages to latest versions
-    sudo apt-get install -y zip unzip
+    sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get install -y zip unzip
     check_command "Dependency installation"
 }
 
 # Function to install Docker and add user to the docker group
 function install_docker {
     echo "Installing Docker..."
-    sudo apt-get update -y  # Update package lists
-    sudo apt-get install -y docker.io
+    sudo apt-get update -y && sudo apt-get install -y docker.io
     check_command "Docker installation"
     
     # Add user to the docker group
@@ -37,22 +34,19 @@ function install_docker {
 # Function to install Java (Java 17 or above)
 function install_java {
     echo "Installing Java..."
-    sudo apt-get update -y  # Update package lists
-    sudo apt-get install -y openjdk-17-jdk
+    sudo apt-get update -y && sudo apt-get install -y openjdk-17-jdk
     check_command "Java installation"
 }
 
 # Function to install Jenkins
 function install_jenkins {
     echo "Installing Jenkins..."
-    sudo apt-get update -y  # Update package lists
-    sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+    sudo wget -q -O /usr/share/keyrings/jenkins-keyring.asc \
         https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
     echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
         https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
         /etc/apt/sources.list.d/jenkins.list > /dev/null
-    sudo apt-get update -y  # Update package lists
-    sudo apt-get install -y jenkins
+    sudo apt-get update -y && sudo apt-get install -y jenkins
     check_command "Jenkins installation"
 }
 
@@ -61,8 +55,7 @@ function install_kubectl_auto {
     echo "Installing Kubectl..."
     
     # Step 1: Install prerequisites
-    sudo apt-get update -y  # Update package lists
-    sudo apt-get install -y apt-transport-https ca-certificates curl
+    sudo apt-get update -y && sudo apt-get install -y apt-transport-https ca-certificates curl
     
     # Step 2: Add Kubernetes apt-keyring
     curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
@@ -71,8 +64,7 @@ function install_kubectl_auto {
     echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
     
     # Step 4: Update and install Kubectl
-    sudo apt-get update -y  # Update package lists
-    sudo apt-get install -y kubectl
+    sudo apt-get update -y && sudo apt-get install -y kubectl
     check_command "Kubectl installation"
 }
 
