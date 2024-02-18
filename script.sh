@@ -23,7 +23,7 @@ function install_dependencies {
 # Function to install Docker and add user to the docker group
 function install_docker {
     echo "Installing Docker..."
-    sudo apt-get update -y && sudo apt-get install -y docker.io
+    sudo apt-get update -y && sudo apt-get install -y -q docker.io
     check_command "Docker installation"
     
     # Add user to the docker group
@@ -34,7 +34,7 @@ function install_docker {
 # Function to install Java (Java 17 or above)
 function install_java {
     echo "Installing Java..."
-    sudo apt-get update -y && sudo apt-get install -y openjdk-17-jdk
+    sudo apt-get update -y && sudo apt-get install -y -q openjdk-17-jdk
     check_command "Java installation"
 }
 
@@ -46,7 +46,7 @@ function install_jenkins {
     echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
         https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
         /etc/apt/sources.list.d/jenkins.list > /dev/null
-    sudo apt-get update -y && sudo apt-get install -y jenkins
+    sudo apt-get update -y && sudo apt-get install -y -q jenkins
     check_command "Jenkins installation"
 }
 
@@ -64,7 +64,7 @@ function install_kubectl_auto {
     echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
     
     # Step 4: Update and install Kubectl
-    sudo apt-get update -y && sudo apt-get install -y kubectl
+    sudo apt-get update -y && sudo apt-get install -y -q kubectl
     check_command "Kubectl installation"
 }
 
@@ -84,42 +84,6 @@ function install_minikube {
     else
         echo "Skipping Minikube installation."
     fi
-}
-
-# Function to install Terraform
-function install_terraform {
-    echo "Do you want to install the latest version of Terraform? (yes/no)"
-    read install_latest_terraform_choice
-
-    if [ "$install_latest_terraform_choice" = "yes" ] || [ "$install_latest_terraform_choice" = "y" ]; then
-        echo "Downloading the latest version of Terraform..."
-        wget https://releases.hashicorp.com/terraform/1.7.3/terraform_1.7.3_linux_amd64.zip -O /tmp/terraform.zip
-        sudo unzip -d /usr/local/bin/ /tmp/terraform.zip
-        rm /tmp/terraform.zip
-        check_command "Latest Terraform installation"
-        echo "Latest version of Terraform installed successfully."
-    else
-        echo "Skipping installation of the latest version of Terraform."
-    fi
-}
-
-# Function to install latest AWS CLI
-function install_aws_cli {
-    echo "Installing the latest version of AWS CLI..."
-    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    unzip awscliv2.zip
-    sudo ./aws/install
-    rm -rf awscliv2.zip ./aws
-    check_command "AWS CLI installation"
-    echo "Latest version of AWS CLI installed successfully."
-}
-
-# Function to install Python
-function install_python {
-    echo "Installing Python..."
-    sudo apt-get update -y && sudo apt-get install -y python3
-    check_command "Python installation"
-    echo "Python installed successfully."
 }
 
 # Main script
@@ -142,7 +106,5 @@ install_kubectl_auto
 # Install Minikube (optional)
 install_minikube
 
-# Install Terraform (optional)
-install_terraform
-
 echo "Installation completed successfully."
+
