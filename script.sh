@@ -87,19 +87,40 @@ function install_minikube {
 }
 
 # Function to install Terraform
-echo "Do you want to install the latest version of Terraform? (yes/no)"
-read install_latest_terraform_choice
+function install_terraform {
+    echo "Do you want to install the latest version of Terraform? (yes/no)"
+    read install_latest_terraform_choice
 
-if [ "$install_latest_terraform_choice" = "yes" ] || [ "$install_latest_terraform_choice" = "y" ]; then
-    echo "Downloading the latest version of Terraform..."
-    wget https://releases.hashicorp.com/terraform/1.7.3/terraform_1.7.3_linux_amd64.zip -O /tmp/terraform.zip
-    sudo unzip -d /usr/local/bin/ /tmp/terraform.zip
-    rm /tmp/terraform.zip
-    check_command "Latest Terraform installation"
-    echo "Latest version of Terraform installed successfully."
-else
-    echo "Skipping installation of the latest version of Terraform."
-fi
+    if [ "$install_latest_terraform_choice" = "yes" ] || [ "$install_latest_terraform_choice" = "y" ]; then
+        echo "Downloading the latest version of Terraform..."
+        wget https://releases.hashicorp.com/terraform/1.7.3/terraform_1.7.3_linux_amd64.zip -O /tmp/terraform.zip
+        sudo unzip -d /usr/local/bin/ /tmp/terraform.zip
+        rm /tmp/terraform.zip
+        check_command "Latest Terraform installation"
+        echo "Latest version of Terraform installed successfully."
+    else
+        echo "Skipping installation of the latest version of Terraform."
+    fi
+}
+
+# Function to install latest AWS CLI
+function install_aws_cli {
+    echo "Installing the latest version of AWS CLI..."
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    unzip awscliv2.zip
+    sudo ./aws/install
+    rm -rf awscliv2.zip ./aws
+    check_command "AWS CLI installation"
+    echo "Latest version of AWS CLI installed successfully."
+}
+
+# Function to install Python
+function install_python {
+    echo "Installing Python..."
+    sudo apt-get update -y && sudo apt-get install -y python3
+    check_command "Python installation"
+    echo "Python installed successfully."
+}
 
 # Main script
 
