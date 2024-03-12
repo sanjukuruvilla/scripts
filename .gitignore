@@ -1,0 +1,8 @@
+# Ignore hidden files and directories
+.*
+
+# Ignore files and directories starting with a dot
+.*/
+
+# Ignore .git directory
+!.git/
