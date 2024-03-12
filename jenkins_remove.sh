@@ -20,6 +20,7 @@ sudo rm -f /etc/apt/sources.list.d/jenkins.list
 sudo apt-key del D50582E6
 
 # Update package lists
+sudo apt-get autoremove -y
 sudo apt-get update
 
 echo "Jenkins has been completely removed from the system."
