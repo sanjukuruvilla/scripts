@@ -2,6 +2,8 @@
 
 # Function to install AWS CLI version 2 on Linux x86 (64-bit)
 install_awscli_linux_x86_64() {
+    # Install unzip if not already installed
+    sudo apt-get update && sudo apt-get install -y unzip
     # Download AWS CLI installation package
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
     # Unzip the package
@@ -12,6 +14,8 @@ install_awscli_linux_x86_64() {
 
 # Function to install AWS CLI version 2 on Linux ARM
 install_awscli_linux_arm() {
+    # Install unzip if not already installed
+    sudo apt-get update && sudo apt-get install -y unzip
     # Download AWS CLI installation package
     curl "https://awscli.amazonaws.com/awscli-exe-linux-arm64.zip" -o "awscliv2.zip"
     # Unzip the package
@@ -31,4 +35,3 @@ else
     echo "Unsupported Linux architecture. Please install AWS CLI manually."
     exit 1
 fi
-
